@@ -70,6 +70,7 @@ export class AuthService extends PrismaClient implements OnModuleInit {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password: __, ...rest } = newUser;
 
+      this.logger.log('User registered');
       return {
         user: rest,
         token: await this.signJWT(rest),
@@ -108,6 +109,8 @@ export class AuthService extends PrismaClient implements OnModuleInit {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password: __, ...rest } = user;
 
+
+      this.logger.log(`Loging ${email}`)
       return {
         user: rest,
         token: await this.signJWT(rest),
