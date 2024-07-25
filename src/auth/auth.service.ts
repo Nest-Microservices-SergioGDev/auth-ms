@@ -48,17 +48,20 @@ export class AuthService extends PrismaClient implements OnModuleInit {
   async registerUser(registerUserDto: RegisterUserDto) {
     try {
       const { email, name, password } = registerUserDto;
+      this.logger.log('Register user - Started...');
       const user = await this.user.findUnique({
         where: { email: email },
       });
-
+      this.logger.log('Register user - Finded...');
+      
       if (user) {
         throw new RpcException({
           status: 400,
           message: 'User already exists',
         });
       }
-
+      
+      this.logger.log('Register user - Finded: User not exists');
       const newUser = await this.user.create({
         data: {
           email,
@@ -66,7 +69,8 @@ export class AuthService extends PrismaClient implements OnModuleInit {
           name,
         },
       });
-
+      
+      this.logger.log('Register user - User created');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password: __, ...rest } = newUser;
 
